@@ -2,7 +2,7 @@
 include "header.php";
 
 ?>
-<form class="row g-3 px-5 act" action = "Dashboard.php" method = "POST">
+<form class="row g-3 px-5 act" action = "/php_code/database/insert_data.php" method = "POST">
     <div class="col-md-6">
     <label for="inputtext4" class="form-label">First Name</label>
     <input type="text" class="form-control" name= "fname">
@@ -13,11 +13,11 @@ include "header.php";
   </div>
   <div class="col-md-6">
     <label for="inputtext4" class="form-label">Father name</label>
-    <input type="text" class="form-control" name= "father name">
+    <input type="text" class="form-control" name= "father_name">
   </div>
   <div class="col-md-6">
     <label for="inputtext4" class="form-label">Mother name</label>
-    <input type="text" class="form-control" name= "mother name">
+    <input type="text" class="form-control" name= "mother_name">
   </div>
   <div class="col-md-6">
     <label for="inputtext4" class="form-label">DOB</label>
@@ -25,7 +25,7 @@ include "header.php";
   </div>
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Email</label>
-    <input type="email" class="form-control" id="inputEmail4">
+    <input type="email" class="form-control" name = "email">
   </div>
   <div class="col-md-6">
     <label for="inputEmail4" class="form-label">Mobile Number</label>
@@ -35,15 +35,15 @@ include "header.php";
   
   <div class="col-md-4">
     <label for="inputState" class="form-label">Role</label>
-    <select id="inputState" class="form-select">
+    <select id="inputState" class="form-select" name = "role">
       <option selected>Choose Role</option>
       <option value="Teacher" >Teacher</option>
       <option value="Student" >Student</option>
     </select>
   </div>
   <div class="col-md-4">
-    <label for="inputState" class="form-label">Role</label>
-    <select id="inputState" class="form-select">
+    <label for="inputState" class="form-label">Course</label>
+    <select id="inputState" class="form-select" name = "course">
       <option selected>Choose Course</option>
       <option value="PHP" >PHP</option>
       <option value="JAVA" >JAVA</option>
