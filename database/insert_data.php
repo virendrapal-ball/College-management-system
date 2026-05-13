@@ -26,7 +26,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     (:name, :father, :mother, :dob, :email, :mobile, :role, :course)";
 
     $data = $conn->prepare($query);
-    
+
     $data->bindParam(':name', $full_name);
     $data->bindParam(':father', $father);
     $data->bindParam(':mother', $mother);
@@ -35,24 +35,17 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     $data->bindParam(':mobile', $mobile);
     $data->bindParam(':role', $role);
     $data->bindParam(':course', $course);
-    
+
     $result = $data->execute();
-    print_r($result);
-    die("data not found");
 
     if($result){
 
         echo "Data Inserted Successfully";
+        // header("Location /php_code/template/student_registration.php");
 
     } else {
 
-        echo "Error Found";
+        echo "Insert Failed";
     }
-
-} else {
-
-    echo "Data Not Found";
 }
-print_r($_POST);
-
 ?>

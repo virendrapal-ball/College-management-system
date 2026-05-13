@@ -1,3 +1,7 @@
+<?php session_start();
+// session_destroy();
+// print_r($_SESSION);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,9 +24,17 @@
         <li class="nav-item">
           <a class="nav-link" href="#">About us</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
+        <?php
+        if(isset($_SESSION['user_name'])){ ?>
+              <li class="nav-item">
+          <a class="nav-link" href="/php_code/template/logout.php">logout</a>
         </li>
+       <?php } else { ?>
+    <li class="nav-item">
+          <a class="nav-link" href="template/login_page.php">login</a>
+        </li>
+       <?php } ?>
+    
         
       </ul>
       <form class="d-flex" role="search">

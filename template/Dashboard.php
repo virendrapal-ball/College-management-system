@@ -1,5 +1,9 @@
 <?php
+
 include "header.php";
 echo  "dashboard";
-print_r($_POST);
+$all_data = $_GET['student'];
+die();
+$data = json_decode($_GET['stud'], true);
+print_r($_data);
 ?>
