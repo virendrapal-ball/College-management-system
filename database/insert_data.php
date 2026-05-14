@@ -3,49 +3,60 @@
 include "config.php";
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+print_r($_POST['image']);
+$file_name = $_FILES['image']['name'];
 
-if($_SERVER['REQUEST_METHOD'] == "POST"){
+    $tmp_name = $_FILES['image']['tmp_name'];
 
-    $Fname = $_POST['fname'];
-    $lname = $_POST['lname'];
+    $path = "uploads/" .basenam(file_name);
 
-    $full_name = $Fname . " " . $lname;
+    move_uploaded_file($tmp_name, $path);
+// $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
 
-    $father = $_POST['father_name'];
-    $mother = $_POST['mother_name'];
-    $dob = $_POST['dob'];
-    $email = $_POST['email'];
-    $mobile = $_POST['mobile'];
-    $role = $_POST['role'];
-    $course = $_POST['course'];
+// if($_SERVER['REQUEST_METHOD'] == "POST"){
 
-    $query = "INSERT INTO reg
-    (name, father_name, mother_name, dob, email, mobile, role, course)
+//     $Fname = $_POST['fname'];
+//     $lname = $_POST['lname'];
 
-    VALUES
-    (:name, :father, :mother, :dob, :email, :mobile, :role, :course)";
+//     $full_name = $Fname . " " . $lname;
 
-    $data = $conn->prepare($query);
+//     $father = $_POST['father_name'];
+//     $mother = $_POST['mother_name'];
+//     $dob = $_POST['dob'];
+//     $email = $_POST['email'];
+//     $mobile = $_POST['mobile'];
+//     $role = $_POST['role'];
+//     $course = $_POST['course'];
+//     $password = $_POST['password'];
 
-    $data->bindParam(':name', $full_name);
-    $data->bindParam(':father', $father);
-    $data->bindParam(':mother', $mother);
-    $data->bindParam(':dob', $dob);
-    $data->bindParam(':email', $email);
-    $data->bindParam(':mobile', $mobile);
-    $data->bindParam(':role', $role);
-    $data->bindParam(':course', $course);
+//     $query = "INSERT INTO reg
+//     (name, father_name, mother_name, dob, email, mobile, role, course,pass)
 
-    $result = $data->execute();
+//     VALUES
+//     (:name, :father, :mother, :dob, :email, :mobile, :role, :course ,:password)";
 
-    if($result){
+//     $data = $conn->prepare($query);
 
-        $message = "Data Inserted Successfully";
-        header("Location /php_code/template/student_registration.php");
+//     $data->bindParam(':name', $full_name);
+//     $data->bindParam(':father', $father);
+//     $data->bindParam(':mother', $mother);
+//     $data->bindParam(':dob', $dob);
+//     $data->bindParam(':email', $email);
+//     $data->bindParam(':mobile', $mobile);
+//     $data->bindParam(':role', $role);
+//     $data->bindParam(':course', $course);
+//     $data->bindParam(':password', $password);
 
-    } else {
+//     $result = $data->execute();
 
-        echo "Insert Failed";
-    }
-}
+//     if($result){
+
+//         $message = "Data Inserted Successfully";
+//         header("Location: /php_code/template/student_registration.php");
+
+//     } else {
+
+//         echo "Insert Failed";
+//     }
+// }
 ?>

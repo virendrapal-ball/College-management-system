@@ -19,7 +19,7 @@
           <a class="nav-link active" aria-current="page" href="/php_code/index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Course</a>
+          <a class="nav-link" href="/php_code/template/student_registration.php">Registration</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">About us</a>

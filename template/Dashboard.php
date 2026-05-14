@@ -1,11 +1,8 @@
 <?php
 session_start();
 include "header.php";
-$all_data = $_GET['student'];
-$data = json_decode($_GET['json'], true);
-print_r($_data);
+require_once "../database/show_data.php";
 ?>
-
 <body class="bg-light">
 
   <div class="container-fluid">
@@ -19,7 +16,7 @@ print_r($_data);
         </h3>
 
         <ul class="nav flex-column">
-
+          <?php if ($_SESSION['role']=="admin"){?>
           <li class="nav-item mb-2">
             <a href="#" class="nav-link text-white">
               <i class="bi bi-speedometer2"></i>
@@ -33,18 +30,26 @@ print_r($_data);
               Student
             </a>
           </li>
+          <?php }else if($_SESSION['role']=="Teacher"){?>
+            <li class="nav-item mb-2">
+            <a href="#" class="nav-link text-white">
+              <i class="bi bi-people"></i>
+              Student
+            </a>
+          </li>
+          <?php }?>
 
           <li class="nav-item mb-2">
             <a href="#" class="nav-link text-white">
               <i class="bi bi-cart"></i>
-              Orders
+              Course
             </a>
           </li>
 
           <li class="nav-item mb-2">
             <a href="#" class="nav-link text-white">
               <i class="bi bi-bar-chart"></i>
-              Reports
+              Course
             </a>
           </li>
 
@@ -71,7 +76,7 @@ print_r($_data);
 
         <!-- Cards -->
         <div class="row g-4">
-
+        
           <div class="col-md-3">
             <div class="card text-bg-primary border-0">
               <div class="card-body">
@@ -118,58 +123,64 @@ print_r($_data);
               Recent Orders
             </h5>
           </div>
+          
+<?php 
 
+if($_SESSION['role']=="admin"){
+  $result = teacher();?>
           <div class="card-body">
 
             <table class="table table-hover align-middle">
 
               <thead class="table-light">
                 <tr>
-                  <th>ID</th>
-                  <th>Customer</th>
-                  <th>Product</th>
+                  <th>Name</th>
+                  <th>Course</th>
+                  <th>Role</th>
                   <th>Status</th>
-                  <th>Amount</th>
+                  <th>edit</th>
+                  <th>Approve</th>
                 </tr>
               </thead>
+              
 
               <tbody>
-
+              <?php
+                foreach($result as $std){?>
                 <tr>
-                  <td>#101</td>
-                  <td>Rahul</td>
-                  <td>Laptop</td>
-                  <td>
-                    <span class="badge bg-success">
-                      Completed
-                    </span>
-                  </td>
-                  <td>₹55,000</td>
-                </tr>
+                  <td><?php echo $std['name']?> </td>
+                  <td><?php echo $std['course']?></td>
+                  <td><?php echo $std['role']?></td>
+                  <td><?php echo $std['status']?></td>
 
-                <tr>
-                  <td>#102</td>
-                  <td>Aman</td>
-                  <td>Mobile</td>
                   <td>
-                    <span class="badge bg-warning text-dark">
-                      Pending
-                    </span>
-                  </td>
-                  <td>₹18,000</td>
-                </tr>
+    <div class="d-flex gap-2">
+        <form action = "/php_code/template/student_registration.php" method = "GET">
+            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+            <button type="submit" class="btn btn-primary">
+                Edit
+            </button>
+        </form>
+        <form action = "/php_code/database/delete.php" method = "GET">
+            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+            <button type="submit" class="btn btn-danger">
+                Delete
+            </button>
+        </form>
 
-                <tr>
-                  <td>#103</td>
-                  <td>Sneha</td>
-                  <td>Headphones</td>
+    </div>
+    
+</td>
                   <td>
-                    <span class="badge bg-danger">
-                      Cancelled
-                    </span>
+                    <form action = "/php_code/database/approve.php" method = "GET">
+            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+            <button type="submit" class="btn btn-primary">
+                Approve
+            </button>
+        </form>
                   </td>
-                  <td>₹2,500</td>
                 </tr>
+                <?php } ?>
 
               </tbody>
 
@@ -181,4 +192,63 @@ print_r($_data);
       </div>
 
     </div>
+  <?php }else if($_SESSION['role']=="Teacher"){
+    $student = Student();
+    ?>
+  <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+              <thead class="table-light">
+                <tr>
+                  <th>Name</th>
+                  <th>Course</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              
+
+              <tbody>
+              <?php
+                foreach($student as $std){?>
+                <tr>
+                  <td><?php echo $std['name']?> </td>
+                  <td><?php echo $std['course']?></td>
+                  <td><?php echo $std['role']?></td>
+                  <td><?php echo $std['status']?></td>
+
+                  <td>
+    <!-- <div class="d-flex gap-2">
+        <form action = "/php_code/template/student_registration.php" method = "GET">
+            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+            <button type="submit" class="btn btn-primary">
+                Edit
+            </button>
+        </form>
+        <form action = "/php_code/database/delete.php" method = "GET">
+            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+            <button type="submit" class="btn btn-danger">
+                Delete
+            </button>
+        </form>
+
+    </div> -->
+    
+</td>
+                  
+                </tr>
+                <?php } ?>
+
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  <?php } ?>
   </div>
