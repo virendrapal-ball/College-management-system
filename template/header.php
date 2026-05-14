@@ -16,7 +16,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/php_code/index.php">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Course</a>
@@ -31,7 +31,7 @@
         </li>
        <?php } else { ?>
     <li class="nav-item">
-          <a class="nav-link" href="template/login_page.php">login</a>
+          <a class="nav-link" href="/php_code/template/login_page.php">login</a>
         </li>
        <?php } ?>
     

@@ -5,6 +5,17 @@ include "header.php";
 <div class="container d-flex justify-content-center align-items-center vh-100">
 
   <form class="border p-4 rounded shadow" style="width: 400px;" action = "/php_code/database/user_auth.php" method = "POST">
+    <div class="mb-3">
+      <label for="exampleInputPassword1" class="form-label">
+        Role
+      </label>
+
+      <select id="inputState" class="form-select" name = "role">
+      <option selected>Choose Role</option>
+      <option value="Teacher" >Teacher</option>
+      <option value="Student" >Student</option>
+    </select>
+    </div>
 
     <div class="mb-3">
       <label for="exampleInputEmail1" class="form-label">
@@ -32,17 +43,6 @@ include "header.php";
              id="exampleInputPassword1"
              name = "pass"
             >
-    </div>
-    <div class="mb-3">
-      <label for="exampleInputPassword1" class="form-label">
-        Role
-      </label>
-
-      <select id="inputState" class="form-select" name = "role">
-      <option selected>Choose Role</option>
-      <option value="Teacher" >Teacher</option>
-      <option value="Student" >Student</option>
-    </select>
     </div>
 
     <div class="mb-3 form-check">

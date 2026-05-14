@@ -40,8 +40,8 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
 
     if($result){
 
-        echo "Data Inserted Successfully";
-        // header("Location /php_code/template/student_registration.php");
+        $message = "Data Inserted Successfully";
+        header("Location /php_code/template/student_registration.php");
 
     } else {
 
