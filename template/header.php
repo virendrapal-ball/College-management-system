@@ -21,9 +21,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/php_code/template/student_registration.php">Registration</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About us</a>
-        </li>
+        
         <?php
         if(isset($_SESSION['user_name'])){ ?>
               <li class="nav-item">
@@ -37,10 +35,10 @@
     
         
       </ul>
-      <form class="d-flex" role="search">
+      <!-- <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
         <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      </form> -->
     </div>
   </div>
 </nav>

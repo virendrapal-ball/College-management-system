@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD']=="POST"){
     $user = $data->fetch();
  
     if ($pass==$user['pass']){
+        $_SESSION['user_id'] =$user['reg_id'];
         $_SESSION['user_name'] =$user['name'];
         $_SESSION['email'] =$user['email'];
         $_SESSION['role'] =$user['role'];
-        echo $user['role'];
         header("Location: /php_code/template/Dashboard.php");
     }
     else{

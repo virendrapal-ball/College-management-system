@@ -1,7 +1,12 @@
 <?php
 session_start();
+if (empty($_SESSION)){
+  header("Location: /php_code/template/login_page.php");
+}
 include "header.php";
 require_once "../database/show_data.php";
+$user_dt = get_data($_SESSION['user_id']);
+// print_r ($user_dt);
 ?>
 <body class="bg-light">
 
@@ -10,26 +15,39 @@ require_once "../database/show_data.php";
 
       <!-- Sidebar -->
       <div class="col-md-2 bg-dark min-vh-100 p-3">
-
+        
         <h3 class="text-white text-center mb-4">
           <?php echo $_SESSION['user_name'] ?>
         </h3>
+        <li class="nav-item mb-2">
+            <a href="#" class="nav-link text-white">
+              <i class="bi bi-speedometer2"></i>
+              Profession : <?php echo $user_dt['role'] ?>
+            </a>
+          </li>
+        <li class="nav-item mb-2">
+            <a href="#" class="nav-link text-white">
+              <i class="bi bi-speedometer2"></i>
+              DOB : <?php echo $user_dt['dob'] ?>
+            </a>
+          </li>
 
         <ul class="nav flex-column">
           <?php if ($_SESSION['role']=="admin"){?>
-          <li class="nav-item mb-2">
+
+          <!-- <li class="nav-item mb-2">
             <a href="#" class="nav-link text-white">
               <i class="bi bi-speedometer2"></i>
               Teacher
             </a>
-          </li>
+          </li> -->
 
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link text-white">
-              <i class="bi bi-people"></i>
-              Student
-            </a>
-          </li>
+          <!-- <li class="nav-item mb-2">
+            <form action="/php_code/template/Dashboard.php" method="post">
+              <input type="text" value="4" hidden>
+            <input type="submit" value ="Student">
+            </form>
+          </li> -->
           <?php }else if($_SESSION['role']=="Teacher"){?>
             <li class="nav-item mb-2">
             <a href="#" class="nav-link text-white">
@@ -42,14 +60,7 @@ require_once "../database/show_data.php";
           <li class="nav-item mb-2">
             <a href="#" class="nav-link text-white">
               <i class="bi bi-cart"></i>
-              Course
-            </a>
-          </li>
-
-          <li class="nav-item mb-2">
-            <a href="#" class="nav-link text-white">
-              <i class="bi bi-bar-chart"></i>
-              Course
+              Subject : <?php echo $user_dt['course']?>
             </a>
           </li>
 
@@ -76,58 +87,23 @@ require_once "../database/show_data.php";
 
         <!-- Cards -->
         <div class="row g-4">
-        
-          <div class="col-md-3">
-            <div class="card text-bg-primary border-0">
-              <div class="card-body">
-                <h6>Total Users</h6>
-                <h3>1,250</h3>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card text-bg-success border-0">
-              <div class="card-body">
-                <h6>Total Orders</h6>
-                <h3>320</h3>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card text-bg-warning border-0">
-              <div class="card-body">
-                <h6>Revenue</h6>
-                <h3>₹45,000</h3>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="card text-bg-danger border-0">
-              <div class="card-body">
-                <h6>Pending</h6>
-                <h3>18</h3>
-              </div>
-            </div>
-          </div>
-
-        </div>
+</div>
 
         <!-- Table -->
         <div class="card mt-5 border-0 shadow-sm">
 
           <div class="card-header bg-white">
             <h5 class="mb-0">
-              Recent Orders
+              List
             </h5>
           </div>
           
 <?php 
 
 if($_SESSION['role']=="admin"){
-  $result = teacher();?>
+
+  $result = teacher();
+  $alot_teacher = alot_teacher()?>
           <div class="card-body">
 
             <table class="table table-hover align-middle">
@@ -154,30 +130,36 @@ if($_SESSION['role']=="admin"){
                   <td><?php echo $std['status']?></td>
 
                   <td>
-    <div class="d-flex gap-2">
-        <form action = "/php_code/template/student_registration.php" method = "GET">
-            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-            <button type="submit" class="btn btn-primary">
-                Edit
-            </button>
-        </form>
-        <form action = "/php_code/database/delete.php" method = "GET">
-            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-            <button type="submit" class="btn btn-danger">
-                Delete
-            </button>
-        </form>
+                    <div class="d-flex gap-2">
+                      <form action = "/php_code/template/update_form.php" method = "GET">
+                      <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+                      <button type="submit" class="btn btn-primary">
+                      Edit
+                      </button>
+                      </form>
+                      <form action = "/php_code/database/delete.php" method = "GET">
+                      <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+                      <button type="submit" class="btn btn-danger">
+                      Delete
+                      </button>
+                      </form>
 
-    </div>
+                    </div>
     
-</td>
+                  </td>
                   <td>
                     <form action = "/php_code/database/approve.php" method = "GET">
-            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-            <button type="submit" class="btn btn-primary">
-                Approve
-            </button>
-        </form>
+                    <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
+                    <?php if ($std['status']=="Approved"){?>
+                    <button type="submit" class="btn btn-danger">
+                    Reject
+                    </button>
+                    <?php }else{?>
+                      <button type="submit" class="btn btn-primary">
+                      Approve
+                      </button>
+                      <?php } ?>
+                    </form>
                   </td>
                 </tr>
                 <?php } ?>
@@ -187,6 +169,46 @@ if($_SESSION['role']=="admin"){
             </table>
 
           </div>
+        
+          <!-- Table -->
+        <div class="card mt-5 border-0 shadow-sm">
+
+          <div class="card-header bg-white">
+            <h5 class="mb-0">
+              Assign Teacher
+            </h5>
+          </div>
+
+          <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+              <thead class="table-light">
+                <tr>
+                  <th>Name</th>
+                  <th>Course</th>
+                  <th>Assign Teacher</th>
+                </tr>
+              </thead>
+
+              <tbody>
+              <?php
+                foreach($alot_teacher as $std){?>
+                <tr>
+                  <td><?php echo $std['student_name']?> </td>
+                  <td><?php echo $std['course']?></td>
+                  <td><?php echo $std['teacher_name']?></td>
+                  <!-- <td><?php echo $std['status']?></td> -->
+                  </td>
+                </tr>
+                <?php } ?>
+
+              </tbody>
+
+            </table>
+
+          </div>
+
         </div>
 
       </div>
@@ -195,7 +217,7 @@ if($_SESSION['role']=="admin"){
   <?php }else if($_SESSION['role']=="Teacher"){
     $student = Student();
     ?>
-  <div class="card-body">
+        <div class="card-body">
 
             <table class="table table-hover align-middle">
 
@@ -218,31 +240,52 @@ if($_SESSION['role']=="admin"){
                   <td><?php echo $std['role']?></td>
                   <td><?php echo $std['status']?></td>
 
-                  <td>
-    <!-- <div class="d-flex gap-2">
-        <form action = "/php_code/template/student_registration.php" method = "GET">
-            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-            <button type="submit" class="btn btn-primary">
-                Edit
-            </button>
-        </form>
-        <form action = "/php_code/database/delete.php" method = "GET">
-            <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-            <button type="submit" class="btn btn-danger">
-                Delete
-            </button>
-        </form>
-
-    </div> -->
-    
-</td>
+                  <td></td>
                   
                 </tr>
-                <?php } ?>
+              <?php } ?>
 
-              </tbody>
+            </tbody>
 
-            </table>
+          </table>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  <?php }else{
+    $student = Student(); ?>
+        <div class="card-body">
+
+            <table class="table table-hover align-middle">
+
+              <thead class="table-light">
+                <tr>
+                  <th>Name</th>
+                  <th>Course</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              
+
+              <tbody>
+              <?php
+                foreach($student as $std){?>
+                <tr>
+                  <td><?php echo $std['name']?> </td>
+                  <td><?php echo $std['course']?></td>
+                  <td><?php echo $std['status']?></td>
+
+                  <td></td>
+                  
+                </tr>
+              <?php } ?>
+
+            </tbody>
+
+          </table>
 
           </div>
         </div>

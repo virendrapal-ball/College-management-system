@@ -1,5 +1,18 @@
 <?php
 include "header.php";
+session_start();
+if (!empty($_SESSION)){
+  header ("Location: /php_code/template/Dashboard.php");
+  exit;
+}
+if(isset($_GET['success']))
+{
+    echo '
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Registration Successful
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>';
+}
 
 ?>
 <div class="container d-flex justify-content-center align-items-center vh-100">
@@ -40,10 +53,6 @@ include "header.php";
              class="form-check-input"
              id="exampleCheck1">
 
-      <label class="form-check-label" for="exampleCheck1">
-        Check me out
-      </label>
-
     </div>
 
     <button type="submit" class="btn btn-primary w-100">
@@ -53,3 +62,8 @@ include "header.php";
   </form>
 
 </div>
+<head>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+</head>
