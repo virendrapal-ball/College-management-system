@@ -1,6 +1,4 @@
 <?php session_start();
-// session_destroy();
-// print_r($_SESSION);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,7 +6,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>Header</title>
 </head>
 <body>
@@ -17,14 +14,12 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <a class="nav-link active" aria-current="page" href="/php_code/index.php">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Course</a>
+          <a class="nav-link" href="/php_code/template/student_registration.php">Registration</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">About us</a>
-        </li>
+        
         <?php
         if(isset($_SESSION['user_name'])){ ?>
               <li class="nav-item">
@@ -32,18 +27,16 @@
         </li>
        <?php } else { ?>
     <li class="nav-item">
-          <a class="nav-link" href="template/login_page.php">login</a>
+          <a class="nav-link" href="/php_code/template/login_page.php">login</a>
         </li>
        <?php } ?>
     
         
       </ul>
-      <form class="d-flex" role="search">
+      <!-- <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
         <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
+      </form> -->
     </div>
   </div>
 </nav>
-</body>
-</html>

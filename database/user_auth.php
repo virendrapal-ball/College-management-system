@@ -2,20 +2,21 @@
 session_start();
 include "config.php";
 if ($_SERVER['REQUEST_METHOD']=="POST"){
-    $email = $_POST['email'];
+    $email_id = $_POST['email'];
     $pass = $_POST['pass'];
     // echo $email;
     $query = "SELECT *
-    FROM admin 
-    WHERE admin_email = ?";
+    FROM reg 
+    WHERE email = ?";
     $data = $conn->prepare($query);
-    $data->execute([$email]);
+    $data->execute([$email_id]);
     $user = $data->fetch();
-    if ($pass==$user['admin_password']){
-        $_SESSION['user_name'] =$user['admin_name'];
-        $_SESSION['email'] =$user['admin_email'];
+ 
+    if (password_verify($pass, $user['pass'])){
+        $_SESSION['user_id'] =$user['reg_id'];
+        $_SESSION['user_name'] =$user['name'];
+        $_SESSION['email'] =$user['email'];
         $_SESSION['role'] =$user['role'];
-        echo $user['role'];
         header("Location: /php_code/template/Dashboard.php");
     }
     else{

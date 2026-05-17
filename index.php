@@ -1,6 +1,5 @@
 <?php
 include "template/header.php";
-echo "home page";
 ?>
 <body>
 <!-- Hero Section -->
@@ -15,7 +14,7 @@ echo "home page";
         Empowering students with quality education and bright futures.
       </p>
 
-      <a href="#" class="btn btn-primary btn-lg mt-3">
+      <a href="/php_code/template/student_registration.php" class="btn btn-primary btn-lg mt-3">
         Apply Now
       </a>
 
@@ -111,6 +110,6 @@ echo "home page";
     </div>
 
   </div>
-  <?php include "footer.php" ?>
+  <?php include "template/footer.php" ?>
 
  
