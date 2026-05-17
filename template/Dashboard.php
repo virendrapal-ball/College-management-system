@@ -278,6 +278,101 @@ if($_SESSION['role']=="Admin"){
     </div>
   <?php }else{?>
     <!-- // Student profile -->
+    <?php $data = get_data($_SESSION['user_id'])?>
+      <div class="col-md-10 p-4 bg-light">
+
+            <!-- Dashboard Header -->
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-body d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">Student Information</h2>
+
+                    <span class="btn btn-primary">
+                        <?php echo $data['role']; ?>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Student Information Card -->
+            <div class="card shadow border-0">
+                <div class="card-body">
+
+                    <div class="row">
+
+                        <!-- Profile Image -->
+                        <div class="col-md-4 text-center">
+                            <img src="uploads/<?php echo $data['image']; ?>"
+                                 class="img-fluid rounded-circle border"
+                                 width="180"
+                                 height="180">
+
+                            <h3 class="mt-3">
+                                <?php echo $data['name']; ?>
+                            </h3>
+                        </div>
+
+                        <!-- Student Details -->
+                        <div class="col-md-8">
+
+                            <table class="table table-bordered">
+
+                                <tr>
+                                    <th>Student Name</th>
+                                    <td>
+                                        <?php echo $data['name']; ?>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Email</th>
+                                    <td>
+                                        <?php echo $data['email']; ?>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Mobile Number</th>
+                                    <td>
+                                        <?php echo $data['mobile']; ?>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <th>Date of Birth</th>
+                                    <td>
+                                        <?php echo $data['dob']; ?>
+                                    </td>
+                                </tr>
+
+                                <tr>
+
+                                <tr>
+                                    <th>Course</th>
+                                    <td>
+                                        <?php echo $data['course']; ?>
+                                    </td>
+                                </tr>
+                                 <tr>
+                                    <th>Application Status</th>
+                                    <td>
+                                        <?php echo $data['status']; ?>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+
+                                
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
 
       </div>
 
