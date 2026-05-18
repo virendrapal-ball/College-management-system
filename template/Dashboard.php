@@ -117,79 +117,211 @@ if($_SESSION['role']=="Admin"){
 
           <div class="card-header bg-white">
             <h5 class="mb-0">
-            Pending Application
+            Application
             </h5>
           </div>
-          <div class="card-body">
+         <?php
 
-            <table class="table table-hover align-middle">
+/* ================= PAGINATION ================= */
 
+$limit = 5; // per page
 
-              <thead class="table-light">
-                <tr>
-                  <th>Name</th>
-                  <th>Course</th>
-                  <th>Role</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              
-              
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 
-              <tbody>
-              <?php
-                foreach($result as $std){?>
-                <tr>
-                  <td><?php echo $std['name']?> </td>
-                  <td><?php echo $std['course']?></td>
-                  <td><?php echo $std['role']?></td>
-                  <td><?php echo $std['status']?></td>
+if($page < 1){
+    $page = 1;
+}
 
-                  <td>
-                    <div class="d-flex gap-2">
-                      <form action = "/php_code/template/update_form.php" method = "GET">
-                      <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-                      <button type="submit" class="btn btn-primary">
-                      Edit
-                      </button>
-                      </form>
-                      <form action = "/php_code/database/delete.php" method = "GET">
-                      <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-                      <button type="submit" class="btn btn-danger">
-                      Delete
-                      </button>
-                      </form>
+$total_records = count($result);
 
-                    </div>
-    
-                  </td>
-                  <?php if ($std['status']=="pending"){?>
-                  <td>
-                    <form action = "/php_code/database/approve.php" method = "GET">
-                    <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-                      <button type="submit" class="btn btn-primary">
-                      Approve
-                      </button>
+$total_pages = ceil($total_records / $limit);
+
+$start = ($page - 1) * $limit;
+
+/* Current page data */
+
+$result_data = array_slice($result, $start, $limit);
+
+?>
+
+<div class="card-body">
+
+<div class="table-responsive">
+
+<table class="table table-hover table-bordered align-middle text-center">
+
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Course</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+            <th>Approval</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    <?php foreach($result_data as $std){ ?>
+
+        <tr>
+
+            <td><?php echo $std['name']; ?></td>
+
+            <td><?php echo $std['course']; ?></td>
+
+            <td><?php echo $std['role']; ?></td>
+
+            <td><?php echo $std['status']; ?></td>
+
+            <td>
+
+                <div class="d-flex justify-content-center gap-2">
+
+                    <!-- Edit -->
+
+                    <form action="/php_code/template/update_form.php" method="GET">
+
+                        <input type="hidden"
+                               value="<?php echo $std['reg_id']?>"
+                               name="reg_num">
+
+                        <button type="submit"
+                                class="btn btn-primary btn-sm">
+
+                            Edit
+
+                        </button>
+
                     </form>
-                  </td>
-                  <?php }else if (($std['status']=="Approved") && $std['role']=="Teacher"){ ?>
-                  <td>
-                    <form action = "/php_code/template/allot_subject.php" method = "POST">
-                    <input type="text" value="<?php echo $std['reg_id']?>" name="reg_num" hidden>
-                      <button type="submit" class="btn btn-primary">
-                      Allot subject
-                      </button>
+
+                    <!-- Delete -->
+
+                    <form action="/php_code/database/delete.php" method="GET">
+
+                        <input type="hidden"
+                               value="<?php echo $std['reg_id']?>"
+                               name="reg_num">
+
+                        <button type="submit"
+                                class="btn btn-danger btn-sm">
+
+                            Delete
+
+                        </button>
+
                     </form>
-                  </td>
-                  <?php } ?>
-                </tr>
-                <?php } ?>
 
-              </tbody>
+                </div>
 
-            </table>
+            </td>
 
-          </div>
+            <td>
+
+            <?php if ($std['status']=="pending"){ ?>
+
+                <form action="/php_code/database/approve.php" method="GET">
+
+                    <input type="hidden"
+                           value="<?php echo $std['reg_id']?>"
+                           name="reg_num">
+
+                    <button type="submit"
+                            class="btn btn-success btn-sm">
+
+                        Approve
+
+                    </button>
+
+                </form>
+
+            <?php } 
+            else if (($std['status']=="Approved") && ($std['role']=="Teacher")){ ?>
+
+                <form action="/php_code/template/allot_subject.php" method="POST">
+
+                    <input type="hidden"
+                           value="<?php echo $std['reg_id']?>"
+                           name="reg_num">
+
+                    <button type="submit"
+                            class="btn btn-warning btn-sm">
+
+                        Allot Subject
+
+                    </button>
+
+                </form>
+
+            <?php } ?>
+
+            </td>
+
+        </tr>
+
+    <?php } ?>
+
+    </tbody>
+
+</table>
+
+</div>
+
+<!-- ================= PAGINATION BUTTONS ================= -->
+
+<nav class="mt-4">
+
+<ul class="pagination justify-content-center">
+
+    <!-- Previous -->
+
+    <li class="page-item <?php if($page <= 1){ echo 'disabled'; } ?>">
+
+        <a class="page-link"
+           href="?page=<?php echo $page-1; ?>">
+
+           Previous
+
+        </a>
+
+    </li>
+
+    <!-- Page Numbers -->
+
+    <?php for($i = 1; $i <= $total_pages; $i++){ ?>
+
+        <li class="page-item <?php if($page == $i){ echo 'active'; } ?>">
+
+            <a class="page-link"
+               href="?page=<?php echo $i; ?>">
+
+               <?php echo $i; ?>
+
+            </a>
+
+        </li>
+
+    <?php } ?>
+
+    <!-- Next -->
+
+    <li class="page-item <?php if($page >= $total_pages){ echo 'disabled'; } ?>">
+
+        <a class="page-link"
+           href="?page=<?php echo $page+1; ?>">
+
+           Next
+
+        </a>
+
+    </li>
+
+</ul>
+
+</nav>
+
+</div>
         
           <!-- Table -->
         <div class="card mt-5 border-0 shadow-sm">
